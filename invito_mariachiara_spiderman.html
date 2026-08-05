@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>invito molto bello x te</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #1b0512 0%, #080205 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            color: #ffffff;
+        }
+
+        /* Spiderweb Background overlay */
+        .bg-web {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            background-image: radial-gradient(#ff0055 1px, transparent 1px), radial-gradient(#00d4ff 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        /* Floating Hearts & Webs */
+        .floating-icon {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container Card */
+        .card {
+            background: rgba(20, 10, 25, 0.85);
+            border: 2px solid #e60039;
+            box-shadow: 0 0 35px rgba(230, 0, 57, 0.4), inset 0 0 15px rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .spidey-badge {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: radial-gradient(circle, #e60039 0%, #990026 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px #e60039;
+            border: 3px solid #ffffff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px #e60039; }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px #ff1a53; }
+            100% { transform: scale(1); box-shadow: 0 0 20px #e60039; }
+        }
+
+        .spidey-icon {
+            width: 70px;
+            height: 70px;
+            fill: #ffffff;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: #ff3366;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+            font-weight: 800;
+        }
+
+        p.subtitle {
+            font-size: 1rem;
+            color: #00d4ff;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px 15px;
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .plea-message {
+            min-height: 28px;
+            font-size: 1rem;
+            color: #ffcc00;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            outline: none;
+            user-select: none;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #00c853, #00e676);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+            z-index: 2;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.8);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #ff1744, #d50000);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
+            position: absolute;
+            transition: all 0.15s ease-out;
+            z-index: 5;
+        }
+
+        /* Success Overlay */
+        .success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 2, 8, 0.95);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            background: rgba(30, 10, 35, 0.9);
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+            border-radius: 24px;
+            padding: 40px 25px;
+            max-width: 420px;
+            width: 90%;
+            animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .success-text {
+            font-size: 1.2rem;
+            color: #ffffff;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .spidey-heart-img {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-web"></div>
+
+    <div class="card" id="mainCard">
+        <!-- Spider-Man Emblem -->
+        <div class="spidey-badge">
+            <svg class="spidey-icon" viewBox="0 0 24 24">
+                <path d="M12,2C11.5,2 11,2.19 10.59,2.59L2.59,10.59C1.8,11.37 1.8,12.63 2.59,13.41L10.59,21.41C11,21.81 11.5,22 12,22C12.5,22 13,21.81 13.41,21.41L21.41,13.41C22.2,12.63 22.2,11.37 21.41,10.59L13.41,2.59C13,2.19 12.5,2 12,2M12,4L19.58,11.58L12,19.16L4.42,11.58L12,4M12,7A3,3 0 0,0 9,10A3,3 0 0,0 12,13A3,3 0 0,0 15,10A3,3 0 0,0 12,7Z"/>
+            </svg>
+        </div>
+
+        <h1>La città della zozza ti sta chiamando 🕷️❤️</h1>
+        <p class="subtitle">MISSIONE SPECIALE D'AMORE</p>
+
+        <div class="question-box">
+            <div class="question-text">ei chiara vuoi venire dalla zozza con me? 🍕🥤</div>
+        </div>
+
+        <div class="plea-message" id="pleaText"></div>
+
+        <div class="button-group" id="btnContainer">
+            <button class="btn btn-yes" id="yesBtn" onclick="acceptInvitation()">SÌ! ❤️</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="dodgeNo()" onclick="dodgeNo()" ontouchstart="dodgeNo()">NO</button>
+        </div>
+    </div>
+
+    <!-- Success Popup Screen -->
+    <div class="success-screen" id="successScreen">
+        <div class="success-card">
+            <div class="spidey-heart-img">🕷️❤️🍕</div>
+            <div class="success-title">SAPEVO CHE AVRESTI DETTO DI SÌ!</div>
+            <div class="success-text">
+                preparati mariakiara che andiamo dalla zozzona
+            </div>
+            <button class="btn btn-yes" onclick="location.reload()">riguarda l'invito</button>
+        </div>
+    </div>
+
+    <script>
+        // Updated pleading texts
+        const pleas = [
+            "ma come no!",
+            "e dai",
+            "perfavore",
+            "ti prego",
+            "mariachiara you are the war",
+            "non puoi dirmi di no",
+            "dirai si"
+        ];
+        
+        let pleaIndex = 0;
+        const noBtn = document.getElementById('noBtn');
+        const pleaText = document.getElementById('pleaText');
+        const container = document.getElementById('mainCard');
+
+        function initNoBtn() {
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '0px';
+            noBtn.style.top = '0px';
+        }
+        initNoBtn();
+
+        function dodgeNo() {
+            pleaText.innerText = pleas[pleaIndex % pleas.length];
+            pleaIndex++;
+
+            noBtn.style.position = 'absolute';
+
+            const cardRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxX = cardRect.width - btnRect.width - 40;
+            const maxY = cardRect.height - btnRect.height - 40;
+
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX)) - (cardRect.width / 2) + (btnRect.width / 2);
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY)) - (cardRect.height / 2) + 100;
+
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function acceptInvitation() {
+            document.getElementById('successScreen').style.display = 'flex';
+            createConfetti();
+        }
+
+        function createFloatingElements() {
+            const icons = ['🕷️', '❤️', '🕸️', '🍕', '💖', '⚡'];
+            for (let i = 0; i < 20; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-icon';
+                el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (4 + Math.random() * 5) + 's';
+                el.style.animationDelay = (Math.random() * 5) + 's';
+                el.style.fontSize = (16 + Math.random() * 20) + 'px';
+                document.body.appendChild(el);
+            }
+        }
+        createFloatingElements();
+
+        function createConfetti() {
+            const colors = ['#e60039', '#00d4ff', '#ffffff', '#ffcc00', '#00e676'];
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '101';
+                confetti.style.animation = `fall ${2 + Math.random() * 3}s linear forwards`;
+                document.body.appendChild(confetti);
+            }
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
